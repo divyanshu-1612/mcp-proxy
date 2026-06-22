@@ -1,0 +1,27 @@
+services:
+  mcp-daemon:
+    build: .
+    container_name: mcp-daemon
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:9800:9800"
+    volumes:
+      # Server definitions (the real config with tokens/commands)
+      - ~/.mcp-daemon/data/servers.json:/data/servers.json:ro
+      # Persistent daemon data (logs, backups)
+      - ~/.mcp-daemon/data:/data
+      # Host Docker socket for launching sibling containers (GitHub, SonarQube)
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - MCP_CONFIG_PATH=/data/servers.json
+      - MCP_DATA_PATH=/data
+      - MCP_DAEMON_PORT=9800
+    labels:
+      - "mcp-daemon.managed=true"
+    networks:
+      - mcp-net
+
+networks:
+  mcp-net:
+    name: mcp-daemon-net
+    driver: bridge

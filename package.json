@@ -1,0 +1,18 @@
+{
+  "name": "mcp-daemon",
+  "version": "2.0.0",
+  "description": "Dockerized MCP server daemon — one container, all servers, shared across Cursor windows",
+  "main": "daemon.js",
+  "bin": {
+    "mcp-daemon": "./cli.js"
+  },
+  "scripts": {
+    "start": "node daemon.js",
+    "docker:up": "docker compose up -d --build",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f"
+  },
+  "dependencies": {
+    "chokidar": "^4.0.0"
+  }
+}
